@@ -297,3 +297,9 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+Test/
+Source/ico/
+Source/Realise/
+Source/x64/
+Realise/
