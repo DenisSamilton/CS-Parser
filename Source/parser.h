@@ -54,7 +54,7 @@ public:
 	*/
 	size_t getEventsSize(const bool onlyReports = true) const;
 
-  void setStrLenght(size_t strLenght);
+	void setStrLenght(size_t strLenght);
 
 	int maxTimeBetweenEvents;
 

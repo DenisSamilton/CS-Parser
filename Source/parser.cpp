@@ -24,7 +24,7 @@ Parser::Parser(std::wstring path, size_t strLenght, int maxTimeBetweenElem)
 size_t Parser::parseFile(std::wstring path)
 {
 	_error = false;
-  _eventsReport.clear();
+    _eventsReport.clear();
 
 	wifstream logFile(path);
 	if (!logFile.is_open()) {
@@ -52,22 +52,17 @@ size_t Parser::parseFile(std::wstring path)
 				delete[] tmpChar;
 			//wifstream debug(L"")
 			bool isExit = false;
-
-			size_t cONDS; //countOfNotDigitSymbols
-			for( cONDS=1; (cONDS < 7) && (!iswdigit( stream.get() )); cONDS++ )
-			{
-				if( stream.eof() )
-				{
+			while (!iswdigit(stream.get())) {
+				stream.ignore();
+				if (!stream.eof()) {
 					isExit = true;
 					break;
 				}
-				stream.ignore( 1 );
 			}
 
-			if( cONDS >= 7 || isExit )
-				continue;
 
-			stream.unget(); 
+			if (isExit)
+				continue;
 
 			// Time
 			stream >> tmp;
@@ -269,9 +264,10 @@ size_t Parser::parseFile(std::wstring path)
 
 					event.slaveId = ' ';
 					event.slaveReaderId = ' ';
-          _events.push_back(event);
+					_events.push_back(event);
 
-				}else if (tmp == L"82") {
+				} 
+				else if (tmp == L"82") {
 					// Event size in bytes
 					size_t dataSize;
 					stream >> tmp;
@@ -445,18 +441,10 @@ size_t Parser::parseFile(std::wstring path)
 
 					_events.push_back(event);
 
-					/*if (checkByWarning) {
-						for (auto &i : _events)
-							if (i.cardId == event.cardId)
-								_eventsReport.push_back(i);
-
-						throwToReports = true;
-					}*/
-					if( checkByWarning )
-					{
-						for( auto i = _events.rbegin(); i < _events.rend(); ++i )
-							if( i->cardId == event.cardId && logparsercs::calcTimeDiff( event.eventTime, i->eventTime ) <= maxTimeBetweenEvents )
-								_eventsReport.push_back( *i );
+					if (checkByWarning) {
+						for (auto i = _events.rbegin(); i < _events.rend(); ++i)
+							if (i->cardId == event.cardId && logparsercs::calcTimeDiff(event.eventTime, i->eventTime) <= maxTimeBetweenEvents)
+								_eventsReport.push_back(*i);
 
 						throwToReports = true;
 					}

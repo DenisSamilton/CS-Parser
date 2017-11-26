@@ -13,12 +13,8 @@ namespace logparsercs {
 		short hours, min, sec, millisec;
 	};
 
-	inline int calcTimeDiff( const Time newer, const Time older )
-	{
-		return 24 * (365 * (newer.year - older.year) 
-									+ 30 * (newer.month - older.month) 
-									+ (newer.day - older.day)) 
-									+ (newer.hours - older.hours);
+	inline size_t calcTimeDiff(const Time newer,const Time older) {
+		return 24*(365*(newer.year - older.year) + 30*(newer.month - older.month) + (newer.day - older.day)) + (newer.hours - older.hours);
 	}
 
 	template <typename T>
@@ -28,7 +24,7 @@ namespace logparsercs {
 		ss << std::hex << hexValue;
 		ss >> result;
 	}
-	
+
 	template <typename T>
 	void hexDmToDec(const std::wstring& hexValue, T& result)
 	{
